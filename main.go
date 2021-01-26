@@ -38,7 +38,7 @@ func (f *VideoCall) TableName() string {
 }
 
 func main() {
-	pass := password.NewPass(6, password.PassTypeAllNum)
+	pass := password.NewPass(10, password.PassTypeNumAndLetter)
 	passStr := pass.CreatePassword()
 	fmt.Println(passStr)
 }

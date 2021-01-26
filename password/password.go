@@ -101,12 +101,9 @@ func (p *pass) CreatePassword() (password string) {
 	for len(password) < p.Length-1 {
 		password += chars[rand.Intn(len(chars))]
 	}
-	allChars := []string{}
 	if p.PT != PassTypeAllNum {
-		allChars = getAllLetter()
-	} else {
-		allChars = getAllNum()
+		chars = getAllLetter()
 	}
-	password = allChars[rand.Intn(len(allChars))] + password
+	password = chars[rand.Intn(len(chars))] + password
 	return
 }
