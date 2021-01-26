@@ -8,29 +8,34 @@ import (
 type PassType int //密码组合类型
 
 const (
-	PassTypeNumAndLetter PassType = 1
-	PassTypeAllNum PassType = 2
-	PassTypeAllLetter PassType = 3
-	PassTypeAddOperator PassType = 4
+	PassTypeNumAndLetter   PassType = 1
+	PassTypeAllNum         PassType = 2
+	PassTypeAllLetter      PassType = 3
+	PassTypeAddOperator    PassType = 4
 	PassTypeAddSpecialChar PassType = 5 //+-*/!@#$%^&*()_=
-	PassTypeAddDefine  PassType = 6
+	PassTypeAddDefine      PassType = 6
 )
+
 //当前密码对象
 type pass struct {
-	Length int
-	PT PassType
+	Length     int
+	PT         PassType
 	DefineChar []string
 }
 
-func NewPass(length int,passType int,defineChar... string)(obj *pass){
+func NewPass(length int, passType PassType, defineChar ...string) (obj *pass) {
+	if length <= 0 {
+		panic("password length not is zero")
+	}
 	obj = new(pass)
 	obj.Length = length
-	obj.PT = PassType(passType)
+	obj.PT = passType
 	obj.DefineChar = defineChar
 	return
 }
+
 //获取组成密码的字符
-func (p *pass)createPassChars()(chars []string){
+func (p *pass) createPassChars() (chars []string) {
 	switch p.PT {
 	case PassTypeNumAndLetter:
 		chars = getLetterAndNum()
@@ -49,52 +54,59 @@ func (p *pass)createPassChars()(chars []string){
 }
 
 //all number
-func getAllNum()[]string{
-	return []string{"0","1","2","3","4","5","6","7","8","9"}
+func getAllNum() []string {
+	return []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 }
 
 //all letter
-func getAllLetter()[]string{
+func getAllLetter() []string {
 	return []string{
-		"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
-		"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+		"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
 	}
 }
+
 //add operator
-func getAddOperator()[]string{
-	return  append(getLetterAndNum(),getOperator()...)
+func getAddOperator() []string {
+	return append(getLetterAndNum(), getOperator()...)
 }
-func getOperator()[]string{
-	return []string{"+","-","*","/"}
+func getOperator() []string {
+	return []string{"+", "-", "*", "/"}
 }
+
 //add special char
-func getAddSpecial()[]string{
-	return append(getLetterAndNum(),getSpecialChars()...)
+func getAddSpecial() []string {
+	return append(getLetterAndNum(), getSpecialChars()...)
 }
-func getSpecialChars()[]string{
-	return []string{"!","@","#","$","%","^","&","(",")"}
+func getSpecialChars() []string {
+	return []string{"!", "@", "#", "$", "%", "^", "&", "(", ")"}
 }
 
 //add define chars
-func (p *pass)getDefineChars()(chars []string){
+func (p *pass) getDefineChars() (chars []string) {
 	chars = getLetterAndNum()
-	chars = append(chars,p.DefineChar...)
+	chars = append(chars, p.DefineChar...)
 	return
 }
 
 //number + letter
-func getLetterAndNum()[]string{
-	return append(getAllLetter(),getAllNum()...)
+func getLetterAndNum() []string {
+	return append(getAllLetter(), getAllNum()...)
 }
+
 //create password
-func (p *pass)CreatePassword () (password string){
+func (p *pass) CreatePassword() (password string) {
 	chars := p.createPassChars()
 	rand.Seed(time.Now().Unix())
-	for len(password) < p.Length - 1{
+	for len(password) < p.Length-1 {
 		password += chars[rand.Intn(len(chars))]
 	}
+	allChars := []string{}
 	if p.PT != PassTypeAllNum {
-		password = getAllLetter()[rand.Intn(1)]
+		allChars = getAllLetter()
+	} else {
+		allChars = getAllNum()
 	}
+	password = allChars[rand.Intn(len(allChars))] + password
 	return
 }
