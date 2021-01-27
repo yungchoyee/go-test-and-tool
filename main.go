@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"hello/password"
+	"hello/library"
 	"time"
 )
 
@@ -38,7 +38,8 @@ func (f *VideoCall) TableName() string {
 }
 
 func main() {
-	pass := password.NewPass(10, password.PassTypeNumAndLetter)
-	passStr := pass.CreatePassword()
-	fmt.Println(passStr)
+	target := 6
+	arr := []interface{}{}
+	arr = append(arr, 1, 2, 3, 4)
+	fmt.Println(library.In_array(target, arr))
 }
