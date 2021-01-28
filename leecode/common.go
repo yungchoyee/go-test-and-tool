@@ -45,17 +45,18 @@ func MaxProfit(prices []int, fee int) int {
 	}
 	return sell
 }
+
 //prices := []int{1, 3, 2, 8, 4, 9,14,44,32,12,33,34,234}
 func MaxProfit1(prices []int, fee int) (profit int) {
-	if len(prices) < 2{
+	if len(prices) < 2 {
 		return
 	}
 	min := prices[0]
-	for _,val := range prices[1:]{
-		if val < min{
+	for _, val := range prices[1:] {
+		if val < min {
 			min = val
-		}else if val > min + fee{
-			profit += val - (min+fee)
+		} else if val > min+fee {
+			profit += val - (min + fee)
 			min = val - fee
 		}
 	}
@@ -72,9 +73,37 @@ func MaxInt(a, b int) int {
 
 //389 找不同   位运算 哈希表
 func FindTheDifference(s string, t string) (difference byte) {
-	for k := range s{
+	for k := range s {
 		difference ^= s[k] ^ t[k]
 	}
 
-	return difference ^ t[len(t) - 1]
+	return difference ^ t[len(t)-1]
+}
+
+//724 寻找数组的中心索引
+func PivotIndex(nums []int) (centerKey int) {
+	if len(nums) == 0 {
+		return -1
+	}
+
+	if len(nums) == 1 {
+		return 0
+	}
+	left, right, sum := 0, 0, 0
+	for _, val := range nums[1:] {
+		sum += val
+	}
+	right = sum
+	if left == right {
+		return 0
+	}
+	for k, val := range nums[1:] {
+		left += nums[k]
+		right -= val
+
+		if left == right {
+			return k + 1
+		}
+	}
+	return -1
 }

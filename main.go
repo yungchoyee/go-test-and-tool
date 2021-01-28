@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"hello/library"
+	"hello/leecode"
 	"time"
 )
 
@@ -38,8 +38,6 @@ func (f *VideoCall) TableName() string {
 }
 
 func main() {
-	target := 6
-	arr := []interface{}{}
-	arr = append(arr, 1, 2, 3, 4)
-	fmt.Println(library.In_array(target, arr))
+	nums := []int{1, 7, 3, 6, 5, 6}
+	fmt.Println(leecode.PivotIndex(nums))
 }
