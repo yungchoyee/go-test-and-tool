@@ -107,3 +107,8 @@ func PivotIndex(nums []int) (centerKey int) {
 	}
 	return -1
 }
+
+func MinimumEffortPath(heights [][]int) (res int) {
+
+	return
+}

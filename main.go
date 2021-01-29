@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"hello/leecode"
+	"hello/sms/upass"
 	"time"
 )
 
@@ -38,6 +38,10 @@ func (f *VideoCall) TableName() string {
 }
 
 func main() {
-	nums := []int{1, 7, 3, 6, 5, 6}
-	fmt.Println(leecode.PivotIndex(nums))
+	uPacc := upass.NewUPass()
+	uPacc.Phone = "17674514010"
+	uPacc.Templateid = "423577"
+	uPacc.Params = []string{"151515"}
+	rr := uPacc.SendPass()
+	fmt.Println(rr["code"])
 }
